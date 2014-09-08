@@ -67,7 +67,7 @@ $(document).ready(function(){
 			url = window.URL || window.webkitURL,
 			src = url.createObjectURL(f);
 		
-		$('#debug')[0].src = src;
+		//$('#debug')[0].src = src; $('#debug').toggleClass("hidden", false);
 			
 		original_image.src = src;
 		original_image.onload = function() {
@@ -75,7 +75,7 @@ $(document).ready(function(){
 					w: original_image.width,
 					h: original_image.height
 			},
-				resize = { width:  dim.w, height: dim.h}; //calculateAspectRatioCover(dim.w, dim.h, canvas_w, canvas_h);
+				resize = calculateAspectRatioCover(dim.w, dim.h, canvas_w, canvas_h);
 				
 			scale = resize.width / dim.w;
 			
