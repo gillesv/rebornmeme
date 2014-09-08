@@ -66,6 +66,8 @@ $(document).ready(function(){
 		var f = document.getElementById('uploadimage').files[0],
 			url = window.URL || window.webkitURL,
 			src = url.createObjectURL(f);
+		
+		$('#debug')[0].src = src;
 			
 		original_image.src = src;
 		original_image.onload = function() {
