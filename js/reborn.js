@@ -75,6 +75,8 @@ $(document).ready(function(){
 			},
 				resize = calculateAspectRatioCover(dim.w, dim.h, canvas_w, canvas_h);
 				
+			alert("uploaded image: " + dim.w + " " + dim.h);
+			
 			scale = resize.width / dim.w;
 			
 			document.getElementById('scale_slider').min = document.getElementById('scale_slider').value = scale;
@@ -117,7 +119,6 @@ $(document).ready(function(){
 		// click & drag
 		document.getElementById('meme').addEventListener('mousedown', onMemeMouseDown, false);
 		document.addEventListener('mouseup', onMemeMouseUp, false);
-		//document.getElementById('meme').addEventListener('mouseup', onMemeMouseUp, false);
 	}
 	
 	var startDrag = { x:0, y:0 }
