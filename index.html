@@ -16,6 +16,10 @@
 	</script>
 	
 	<style>
+	
+		body, html {
+			font-family: sans-serif;
+		}
 		
 		#main {
 			max-width: 512px;
@@ -23,12 +27,24 @@
 		}
 		
 		#meme {
+			background: #ccc;
+			display: block;
 		}
 		
-		form {
-			border-radius: 5px;
+		form {			
 			background: #ececec;
 			padding: 20px;
+		}
+		
+		#upload {
+			border-radius: 5px 5px 0 0;
+		}
+		#editorUI {
+			border-radius: 0 0 5px 5px;
+		}
+		
+		.hidden {
+			display: none;
 		}
 		
 	</style>
@@ -41,13 +57,22 @@
 	
 	<div id="main">
 	
-		<form>
+		<form id="upload" class="">
 			<input type='file' name='img' size='65' id='uploadimage' />
 		</form>
 		
 		<canvas id="meme" width="512" height="512">
 		
 		</canvas>
+		
+		<img src="img/reborn.png" id="rebornLogo" class="hidden" />
+		
+		<form id="editorUI" class="hidden">
+			<label for="scale_slider">Scale:</label>
+			<input type="range" min="0" max="2" step="0.01" value="1" name="scale_slider" id="scale_slider" />
+			
+			<button id="btnsave">Save</button>
+		</form>
 		
 	</div>
 	
