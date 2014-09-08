@@ -1,3 +1,17 @@
+var $canvas,
+	$upload,
+	$editorUI,
+	$rebornLogo,
+	context2d,
+	canvas_w = canvas_h = 512,
+	original_image,
+	scale = 1.0,
+	center = { x: 0, y: 0},
+	offset = { x:0, y:0 },
+	
+	
+	renderfunction;
+
 $(document).ready(function(){
 	if(!Modernizr.canvas) {
 		alert("No canvas support detected — please upgrade your browser");
@@ -5,20 +19,21 @@ $(document).ready(function(){
 		return false;
 	}
 	
-	var $canvas = $('#meme'),
-		$upload = $('#upload'),
-		$editorUI = $('#editorUI'),
-		$rebornLogo,
-		context2d = $canvas[0].getContext('2d'),
-		canvas_w = canvas_h = 512,
-		original_image,
-		scale = 1.0,
-		center = { x: 0, y: 0},
-		offset = { x:0, y:0 };
+	$canvas = $('#meme'),
+	$upload = $('#upload'),
+	$editorUI = $('#editorUI'),
+	$rebornLogo,
+	context2d = $canvas[0].getContext('2d'),
+	canvas_w = canvas_h = 512,
+	original_image,
+	scale = 1.0,
+	center = { x: 0, y: 0},
+	offset = { x:0, y:0 };
 	
+	renderfunction = render;
+
 	// events
 	document.getElementById('uploadimage').addEventListener('change', getUserImage, false);
-	document.getElementById('scale_slider').addEventListener('change', onScaleChange, false);
 	
 	/*
 	 * render
@@ -95,7 +110,50 @@ $(document).ready(function(){
 	 */
 	function initEditorUI() {
 		$editorUI.toggleClass('hidden', false);
+		
+		document.getElementById('scale_slider').addEventListener('change', onScaleChange, false);
+		document.getElementById('btnsave').addEventListener('click', saveImage, false);
+		
+		// click & drag
+		document.getElementById('meme').addEventListener('mousedown', onMemeMouseDown, false);
+		document.addEventListener('mouseup', onMemeMouseUp, false);
+		//document.getElementById('meme').addEventListener('mouseup', onMemeMouseUp, false);
 	}
+	
+	var startDrag = { x:0, y:0 }
+		dragging = { x:0, y:0 };
+	
+	function onMemeMouseDown(evt) {
+		evt.preventDefault();
+		
+		startDrag.x = evt.clientX;
+		startDrag.y = evt.clientY;
+		
+		document.getElementById('meme').addEventListener('mousemove', onMemeMouseMove, false);
+	}
+	
+	function onMemeMouseMove(evt) {
+		evt.preventDefault();
+		
+		dragging.x = evt.clientX - startDrag.x;
+		dragging.y = evt.clientY - startDrag.y;
+		
+		offset.x = dragging.x;
+		offset.y = dragging.y;
+		
+		render();
+	}
+	
+	function onMemeMouseUp(evt) {
+		center.x += offset.x;
+		center.y += offset.y;
+		
+		offset.x = 0;
+		offset.y = 0;
+	
+		document.getElementById('meme').removeEventListener('mousemove', onMemeMouseMove, false);
+	}
+	
 	
 	/*
 	 * scale image
@@ -113,7 +171,9 @@ $(document).ready(function(){
 	 * save image
 	 */
 	function saveImage(evt) {
-		
+		evt.preventDefault();
+	
+		alert($canvas[0].toDataURL());
 	}
 	
 	/*********** HELPERS ************/
