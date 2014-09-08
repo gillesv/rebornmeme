@@ -73,10 +73,8 @@ $(document).ready(function(){
 					w: original_image.width,
 					h: original_image.height
 			},
-				resize = calculateAspectRatioCover(dim.w, dim.h, canvas_w, canvas_h);
+				resize = { width:  dim.w, height: dim.h}; //calculateAspectRatioCover(dim.w, dim.h, canvas_w, canvas_h);
 				
-			alert("uploaded image: " + dim.w + " " + dim.h);
-			
 			scale = resize.width / dim.w;
 			
 			document.getElementById('scale_slider').min = document.getElementById('scale_slider').value = scale;
