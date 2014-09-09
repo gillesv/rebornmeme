@@ -1,17 +1,3 @@
-var $canvas,
-	$upload,
-	$editorUI,
-	$rebornLogo,
-	context2d,
-	canvas_w = canvas_h = 512,
-	original_image,
-	scale = 1.0,
-	center = { x: 0, y: 0},
-	offset = { x:0, y:0 },
-	
-	
-	renderfunction;
-
 $(document).ready(function(){
 	if(!Modernizr.canvas) {
 		alert("No canvas support detected — please upgrade your browser");
@@ -19,18 +5,16 @@ $(document).ready(function(){
 		return false;
 	}
 	
-	$canvas = $('#meme'),
-	$upload = $('#upload'),
-	$editorUI = $('#editorUI'),
-	$rebornLogo,
-	context2d = $canvas[0].getContext('2d'),
-	canvas_w = canvas_h = 512,
-	original_image,
-	scale = 1.0,
-	center = { x: 0, y: 0},
-	offset = { x:0, y:0 };
-	
-	renderfunction = render;
+	var $canvas = $('#meme'),
+		$upload = $('#upload'),
+		$editorUI = $('#editorUI'),
+		$rebornLogo,
+		context2d = $canvas[0].getContext('2d'),
+		canvas_w = canvas_h = 512,
+		original_image,
+		scale = 1.0,
+		center = { x: 0, y: 0},
+		offset = { x:0, y:0 };
 
 	// events
 	document.getElementById('uploadimage').addEventListener('change', getUserImage, false);
@@ -52,16 +36,19 @@ $(document).ready(function(){
 		
 		if(original_image !== null) {
 		
+			// limit the dragging to keep the image in frame
+			var xpos = Math.max(-1 * (original_image.width*scale - canvas_w), Math.min(0, center.x + offset.x)),
+				ypos = Math.max(-1 * (original_image.height*scale - canvas_h), Math.min(0, center.y + offset.y));
+		
 			// draw the image
-			context2d.drawImage(original_image, center.x + offset.x, center.y + offset.y, original_image.width*scale, original_image.height*scale);
+			context2d.drawImage(original_image, xpos, ypos, original_image.width*scale, original_image.height*scale);
 			
 			// lazy init the reborn branding
 			if(!$rebornLogo) {
 				$rebornLogo = $('#rebornLogo');
 			}
 			
-			context2d.drawImage($rebornLogo[0], 0, 0, canvas_w, canvas_h);
-			
+			context2d.drawImage($rebornLogo[0], 0, 0, canvas_w, canvas_h);			
 		}
 	}
 	
@@ -74,8 +61,6 @@ $(document).ready(function(){
 		var f = document.getElementById('uploadimage').files[0],
 			url = window.URL || window.webkitURL,
 			src = url.createObjectURL(f);
-		
-		//$('#debug')[0].src = src; $('#debug').toggleClass("hidden", false);
 			
 		original_image.src = src;
 		original_image.onload = function() {
