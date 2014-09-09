@@ -10,7 +10,8 @@ $(document).ready(function(){
 		$editorUI = $('#editorUI'),
 		$rebornLogo,
 		context2d = $canvas[0].getContext('2d'),
-		canvas_w = canvas_h = 512,
+		canvas_w = 512,
+		canvas_h = 512,
 		original_image,
 		scale = 1.0,
 		center = { x: 0, y: 0},
@@ -48,7 +49,7 @@ $(document).ready(function(){
 				$rebornLogo = $('#rebornLogo');
 			}
 			
-			context2d.drawImage($rebornLogo[0], 0, 0, canvas_w, canvas_h);			
+			context2d.drawImage($rebornLogo[0], canvas_w - $rebornLogo.width(), canvas_h - $rebornLogo.height());			
 		}
 	}
 	
