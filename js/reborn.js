@@ -194,8 +194,19 @@ $(document).ready(function(){
 	 */
 	function saveImage(evt) {
 		evt.preventDefault();
-	
-		//alert($canvas[0].toDataURL());
+		
+		$.ajax({
+			type: "POST",
+			url: "save-image.php",
+			data: { 
+				guid: guid().toString(), 
+				image: $canvas[0].toDataURL() 
+			},
+			success: function(result) {
+				console.log(result);
+			}
+		})
+		
 	}
 	
 	/*********** HELPERS ************/
@@ -239,3 +250,18 @@ $(document).ready(function(){
 		return returner;
 	}
 });
+
+/*
+ * GUID (Generated Unique IDentifier) generator — use as: var id = guid();
+ */
+var guid = (function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+               .toString(16)
+               .substring(1);
+  }
+  return function() {
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+           s4() + '-' + s4() + s4() + s4();
+  };
+})();
