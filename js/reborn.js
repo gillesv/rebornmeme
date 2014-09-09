@@ -35,6 +35,10 @@ $(document).ready(function(){
 	// events
 	document.getElementById('uploadimage').addEventListener('change', getUserImage, false);
 	
+	document.getElementById('scale_slider').addEventListener('change', onScaleChange, false);
+	document.getElementById('btnsave').addEventListener('click', saveImage, false);
+	document.getElementById('btnreset').addEventListener('click', resetEditor, false);
+	
 	/*
 	 * render
 	 */
@@ -46,15 +50,19 @@ $(document).ready(function(){
 		// clear canvas by setting its width to its width (LOGICAL)
 		$canvas[0].width = $canvas[0].width;
 		
-		// draw the image
-		context2d.drawImage(original_image, center.x + offset.x, center.y + offset.y, original_image.width*scale, original_image.height*scale);
+		if(original_image !== null) {
 		
-		// lazy init the reborn branding
-		if(!$rebornLogo) {
-			$rebornLogo = $('#rebornLogo');
+			// draw the image
+			context2d.drawImage(original_image, center.x + offset.x, center.y + offset.y, original_image.width*scale, original_image.height*scale);
+			
+			// lazy init the reborn branding
+			if(!$rebornLogo) {
+				$rebornLogo = $('#rebornLogo');
+			}
+			
+			context2d.drawImage($rebornLogo[0], 0, 0, canvas_w, canvas_h);
+			
 		}
-		
-		context2d.drawImage($rebornLogo[0], 0, 0, canvas_w, canvas_h);
 	}
 	
 	/*
@@ -112,9 +120,7 @@ $(document).ready(function(){
 	 */
 	function initEditorUI() {
 		$editorUI.toggleClass('hidden', false);
-		
-		document.getElementById('scale_slider').addEventListener('change', onScaleChange, false);
-		document.getElementById('btnsave').addEventListener('click', saveImage, false);
+		$canvas.toggleClass('active', true);	// show dragging hand cursor
 		
 		// click & drag
 		document.getElementById('meme').addEventListener('mousedown', onMemeMouseDown, false);
@@ -168,13 +174,28 @@ $(document).ready(function(){
 		render();
 	}
 	
+	function resetEditor(evt) {
+		evt.preventDefault();
+		
+		original_image = null;
+		scale = 1.0,
+		center = { x: 0, y: 0},
+		offset = { x:0, y:0 };
+		
+		render();
+		
+		$canvas.toggleClass('active', true);	// don't show dragging hand cursor
+		$upload.toggleClass('hidden', false);		
+		$editorUI.toggleClass('hidden', true);
+	}
+	
 	/*
 	 * save image
 	 */
 	function saveImage(evt) {
 		evt.preventDefault();
 	
-		alert($canvas[0].toDataURL());
+		//alert($canvas[0].toDataURL());
 	}
 	
 	/*********** HELPERS ************/
