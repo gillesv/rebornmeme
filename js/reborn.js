@@ -195,15 +195,18 @@ $(document).ready(function(){
 	function saveImage(evt) {
 		evt.preventDefault();
 		
+		var uid = guid().toString();
+		
 		$.ajax({
 			type: "POST",
 			url: "save-image.php",
 			data: { 
-				guid: guid().toString(), 
+				guid: uid, 
 				image: $canvas[0].toDataURL() 
 			},
 			success: function(result) {
-				console.log(result);
+				// redirect
+				window.location = 'public/' + uid + '.html';
 			}
 		})
 		
