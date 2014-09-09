@@ -1,0 +1,40 @@
+body,
+html {
+  font-family: sans-serif;
+}
+body {
+  padding: 10px;
+}
+#main {
+  max-width: 512px;
+  margin: 0 auto;
+}
+#meme {
+  background: #ccc;
+  display: block;
+  width: 100%;
+}
+#meme.active {
+  cursor: hand;
+  cursor: -webkit-grab;
+}
+form {
+  background: #ececec;
+  padding: 20px;
+}
+#upload {
+  border-radius: 5px 5px 0 0;
+}
+#editorUI {
+  border-radius: 0 0 5px 5px;
+}
+.hidden {
+  display: none;
+}
+.hidden {
+  display: none;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
