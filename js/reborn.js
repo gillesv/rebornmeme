@@ -24,6 +24,12 @@ $(document).ready(function(){
 	document.getElementById('btnsave').addEventListener('click', saveImage, false);
 	document.getElementById('btnreset').addEventListener('click', resetEditor, false);
 	
+	$('#btnAbout, #aboutClose').click(function(evt){
+		evt.preventDefault();
+		
+		$('#about').toggleClass('hidden');
+	});
+	
 	/*
 	 * render
 	 */
